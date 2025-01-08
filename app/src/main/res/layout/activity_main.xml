@@ -2,32 +2,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="20dp"
     android:gravity="center"
-    android:padding="16dp">
+    android:background="@drawable/background_luxury">
 
-    <!-- Welcome Text -->
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_logo"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Title -->
     <TextView
-        android:id="@+id/txtWelcome"
+        android:id="@+id/txtAppTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to RH Rentals"
-        android:textSize="24sp"
+        android:text="RH Rentals"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp" />
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/txtTagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Luxury in Every Mile"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp" />
 
     <!-- View Cars Button -->
     <Button
         android:id="@+id/btnViewCars"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Cars"
-        android:layout_marginBottom="10dp" />
+        android:textSize="18sp"
+        android:backgroundTint="#FFD700"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:elevation="4dp"
+        android:layout_marginBottom="20dp" />
 
-    <!-- Book a Car Button -->
+    <!-- Book Now Button -->
     <Button
         android:id="@+id/btnBookCar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Book a Car" />
+        android:text="Book Now"
+        android:textSize="18sp"
+        android:backgroundTint="#001F54"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:elevation="4dp" />
 
 </LinearLayout>
