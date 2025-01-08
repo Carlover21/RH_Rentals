@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnViewCars).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start CarListActivity when the button is clicked
                 Intent intent = new Intent(MainActivity.this, CarListActivity.class);
                 startActivity(intent);
             }
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnBookCar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start BookingActivity when the button is clicked
                 Intent intent = new Intent(MainActivity.this, BookingActivity.class);
                 startActivity(intent);
             }
