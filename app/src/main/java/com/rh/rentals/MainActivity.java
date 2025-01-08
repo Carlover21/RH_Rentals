@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  // Sets the layout for the home screen
+        setContentView(R.layout.activity_main);
 
         // Set up click listener for the "View Cars" button
         findViewById(R.id.btnViewCars).setOnClickListener(new View.OnClickListener() {
