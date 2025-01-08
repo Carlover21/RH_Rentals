@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RH_Rentals"
         tools:targetApi="31">
+
+        <!-- Main Activity Declaration -->
+        <!-- This is the launcher activity for the app -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -19,10 +22,27 @@
             android:theme="@style/Theme.RH_Rentals">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Car List Activity Declaration -->
+        <!-- Activity for displaying the list of cars -->
+        <activity
+            android:name=".CarListActivity"
+            android:exported="true"
+            android:label="Car List"
+            android:theme="@style/Theme.RH_Rentals" />
+
+        <!-- Booking Activity Declaration -->
+        <!-- Activity for handling car bookings -->
+        <activity
+            android:name=".BookingActivity"
+            android:exported="true"
+            android:label="Booking"
+            android:theme="@style/Theme.RH_Rentals" />
+
     </application>
+
 
 </manifest>
