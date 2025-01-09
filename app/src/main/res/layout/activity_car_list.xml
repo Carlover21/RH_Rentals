@@ -15,13 +15,10 @@
         android:textStyle="bold"
         android:layout_marginBottom="20dp" />
 
-    <!-- Placeholder for Car List -->
-    <TextView
-        android:id="@+id/txtCarPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(List of cars will go here)"
-        android:textSize="16sp"
-        android:layout_marginBottom="20dp" />
-
+    <!-- ListView for displaying cars -->
+    <ListView
+        android:id="@+id/listViewCars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
+
