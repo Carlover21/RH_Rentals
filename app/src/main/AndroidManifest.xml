@@ -42,7 +42,14 @@
             android:label="Booking"
             android:theme="@style/Theme.RH_Rentals" />
 
-    </application>
+        <!-- Car Detail Activity Declaration -->
+        <!-- Activity for displaying car details -->
+        <activity
+            android:name=".CarDetailActivity"
+            android:exported="true"
+            android:label="Car Details"
+            android:theme="@style/Theme.RH_Rentals" />
 
+    </application>
 
 </manifest>
