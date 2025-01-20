@@ -5,6 +5,24 @@
     android:padding="20dp"
     android:gravity="center">
 
+    <!-- Image Slideshow Preview (ViewPager) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerCarImages"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Button to Select Multiple Images -->
+    <Button
+        android:id="@+id/btnSelectImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Images"
+        android:backgroundTint="#FFA500"
+        android:textColor="@android:color/white"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"/>
+
     <!-- Input field for Car Name -->
     <EditText
         android:id="@+id/etCarName"

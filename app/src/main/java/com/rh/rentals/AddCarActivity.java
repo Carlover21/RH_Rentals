@@ -1,51 +1,85 @@
 package com.rh.rentals;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2; // ✅ Ensure ViewPager2 is imported
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddCarActivity extends AppCompatActivity {
+    private ViewPager2 viewPagerCarImages; // ✅ Updated to ViewPager2
     private EditText etCarName, etCarPrice;
-    private DatabaseHelper databaseHelper; // Database Helper to manage SQLite operations
+    private Button btnSelectImages, btnSaveCar;
+    private List<String> selectedImageUris = new ArrayList<>();
+    private ImagePagerAdapter imagePagerAdapter;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car);
 
-        // Link UI elements
+        // Initialize UI elements
+        viewPagerCarImages = findViewById(R.id.viewPagerCarImages);
         etCarName = findViewById(R.id.etCarName);
         etCarPrice = findViewById(R.id.etCarPrice);
-        Button btnSaveCar = findViewById(R.id.btnSaveCar);
-
-        // Initialize Database Helper
+        btnSelectImages = findViewById(R.id.btnSelectImages);
+        btnSaveCar = findViewById(R.id.btnSaveCar);
         databaseHelper = new DatabaseHelper(this);
 
-        // Set button click listener to save car to the database
-        btnSaveCar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etCarName.getText().toString();
-                String priceText = etCarPrice.getText().toString();
+        // Initialize adapter for ViewPager2
+        imagePagerAdapter = new ImagePagerAdapter(this, selectedImageUris);
+        viewPagerCarImages.setAdapter(imagePagerAdapter); // ✅ No more type conversion error
 
-                // Validate input fields
-                if (!name.isEmpty() && !priceText.isEmpty()) {
-                    double price = Double.parseDouble(priceText);
+        // Handle image selection
+        btnSelectImages.setOnClickListener(v -> selectImages());
 
-                    // Insert car into the database
-                    if (databaseHelper.addCar(name, price)) {
-                        Toast.makeText(AddCarActivity.this, "Car Added Successfully", Toast.LENGTH_SHORT).show();
-                        finish(); // Close this activity
-                    } else {
-                        Toast.makeText(AddCarActivity.this, "Failed to Add Car", Toast.LENGTH_SHORT).show();
+        // Handle saving the car data
+        btnSaveCar.setOnClickListener(v -> saveCarToDatabase());
+    }
+
+    // ✅ Allow user to select multiple images
+    private final ActivityResultLauncher<Intent> imagePickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    if (result.getData().getClipData() != null) {
+                        int count = result.getData().getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
+                            selectedImageUris.add(imageUri.toString());
+                        }
+                    } else if (result.getData().getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        selectedImageUris.add(imageUri.toString());
                     }
-                } else {
-                    Toast.makeText(AddCarActivity.this, "Please enter all details", Toast.LENGTH_SHORT).show();
+                    imagePagerAdapter.notifyDataSetChanged();
                 }
-            }
-        });
+            });
+
+    private void selectImages() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        imagePickerLauncher.launch(intent);
+    }
+
+    // ✅ Save car with images to SQLite database
+    private void saveCarToDatabase() {
+        String carName = etCarName.getText().toString().trim();
+        String carPrice = etCarPrice.getText().toString().trim();
+
+        if (carName.isEmpty() || carPrice.isEmpty() || selectedImageUris.isEmpty()) {
+            return;
+        }
+
+        String imageUrisString = String.join(",", selectedImageUris); // Store URIs as comma-separated string
+        databaseHelper.addCar(carName, Double.parseDouble(carPrice), imageUrisString);
+        finish(); // Close activity after saving
     }
 }

@@ -3,74 +3,48 @@ package com.rh.rentals;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 
 public class CarListActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private CarAdapter carAdapter;
+    private DatabaseHelper databaseHelper;
+    private List<Car> carList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_list);
 
-        // Create a list of cars (hardcoded for now)
-        ArrayList<String> carList = new ArrayList<>();
-        carList.add("Tesla Model S");
-        carList.add("BMW X5");
-        carList.add("Audi A8");
-        carList.add("Mercedes-Benz C-Class");
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewCars);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Create a list of car prices
-        ArrayList<String> carPrices = new ArrayList<>();
-        carPrices.add("$120/day");
-        carPrices.add("$150/day");
-        carPrices.add("$180/day");
-        carPrices.add("$200/day");
+        // Initialize Database Helper
+        databaseHelper = new DatabaseHelper(this);
 
-        // Create a list of car descriptions
-        ArrayList<String> carDescriptions = new ArrayList<>();
-        carDescriptions.add("Tesla Model S is a luxury electric car with advanced technology and superior performance.");
-        carDescriptions.add("BMW X5 is a high-end SUV known for its comfort, power, and off-road capabilities.");
-        carDescriptions.add("Audi A8 offers a premium driving experience with top-notch interiors and smooth handling.");
-        carDescriptions.add("Mercedes-Benz C-Class combines elegance and performance in a compact luxury sedan.");
+        // Load cars from database
+        loadCars();
+    }
 
-        // Set up ListView and Adapter
-        ListView listView = findViewById(R.id.listViewCars);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carList);
-        listView.setAdapter(adapter);
+    private void loadCars() {
+        carList = databaseHelper.getAllCars(); // Fetch all saved cars
 
-        // Handle item clicks to navigate to CarDetailActivity
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CarListActivity.this, CarDetailActivity.class);
-                intent.putExtra("carName", carList.get(position));
-                intent.putExtra("carPrice", carPrices.get(position));
-                intent.putExtra("carDescription", carDescriptions.get(position));
+        if (carList.isEmpty()) {
+            Toast.makeText(this, "No cars available", Toast.LENGTH_SHORT).show();
+        } else {
+            carAdapter = new CarAdapter(this, carList, databaseHelper);
+            recyclerView.setAdapter(carAdapter);
+        }
+    }
 
-                // Pass image resource IDs for the selected car
-                int[] imageIds;
-                switch (position) {
-                    case 0:
-                        imageIds = new int[]{R.drawable.tesla_1, R.drawable.tesla_2, R.drawable.tesla_3,};
-                        break;
-                    case 1:
-                        imageIds = new int[]{R.drawable.bmw_1, R.drawable.bmw_2, R.drawable.bmw_3};
-                        break;
-                    case 2:
-                        imageIds = new int[]{R.drawable.audi_1, R.drawable.audi_2, R.drawable.audi_3};
-                        break;
-                    default:
-                        imageIds = new int[]{R.drawable.mercedes_1, R.drawable.mercedes_2, R.drawable.mercedes_3};
-                        break;
-                }
-                intent.putExtra("imageIds", imageIds);
-                startActivity(intent);
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadCars(); // Reload car list when returning to this screen
     }
 }
-

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt") // ✅ Fix: Enable kapt plugin
 }
 
 android {
@@ -39,13 +40,28 @@ android {
     }
 }
 
-
-
-
 dependencies {
-    dependencies {
-        implementation("androidx.appcompat:appcompat:1.6.1")
-    }
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
+    // ✅ Fix Glide Not Found Error
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1") // ✅ Now kapt will work
+
+    // ✅ Fix ViewPager2 Crash
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    // ✅ Add RecyclerView Dependency
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+
+    // ✅ Ensure Constraint Layout Works
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // ✅ Google Material Design Components
+    implementation("com.google.android.material:material:1.9.0")
+
+    // ✅ Navigation Components
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -55,6 +71,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

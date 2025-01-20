@@ -1,41 +1,47 @@
 package com.rh.rentals;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CarDetailActivity extends AppCompatActivity {
+    private ViewPager2 viewPager;
+    private TextView txtCarName, txtCarPrice, txtCarDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
 
-        // Get data from the intent
+        // ✅ Corrected: Use ViewPager2 instead of ViewPager
+        viewPager = findViewById(R.id.viewPager);
+        txtCarName = findViewById(R.id.txtCarName);
+        txtCarPrice = findViewById(R.id.txtCarPrice);
+        txtCarDescription = findViewById(R.id.txtCarDescription);
+
+        // Get data from Intent
         String carName = getIntent().getStringExtra("carName");
         String carPrice = getIntent().getStringExtra("carPrice");
         String carDescription = getIntent().getStringExtra("carDescription");
-        int[] imageIds = getIntent().getIntArrayExtra("imageIds");
+        String imageUrisString = getIntent().getStringExtra("carImages"); // Expecting comma-separated image URIs
 
-        // Set the car name, price, and description in TextViews
-        TextView txtCarName = findViewById(R.id.txtCarName);
-        TextView txtCarPrice = findViewById(R.id.txtCarPrice);
-        TextView txtCarDescription = findViewById(R.id.txtCarDescription);
+        // Set text values
         txtCarName.setText(carName);
-        txtCarPrice.setText("Price per day: " + carPrice);
+        txtCarPrice.setText("Price: $" + carPrice);
         txtCarDescription.setText(carDescription);
 
-        // Convert int[] to ArrayList<Integer>
-        ArrayList<Integer> imageList = new ArrayList<>();
-        for (int id : imageIds) {
-            imageList.add(id);
+        // Convert String image URIs to ArrayList<String>
+        List<String> imageList = new ArrayList<>();
+        if (imageUrisString != null) {
+            imageList = Arrays.asList(imageUrisString.split(","));
         }
 
-        // Set up ViewPager for sliding images
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        ImagePagerAdapter adapter = new ImagePagerAdapter(this, imageList);
+        // ✅ Corrected: Set up ViewPager2 with RecyclerView.Adapter
+        ImagePagerAdapter adapter = new ImagePagerAdapter(this, new ArrayList<>(imageList));
         viewPager.setAdapter(adapter);
     }
 }

@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Image Slider -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerCarImages"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Car Name -->
+    <TextView
+        android:id="@+id/textViewCarName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Car Price -->
+    <TextView
+        android:id="@+id/textViewCarPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingTop="4dp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Delete Car Button -->
+    <Button
+        android:id="@+id/btnDeleteCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:backgroundTint="#FF0000"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>
