@@ -62,6 +62,19 @@
         android:backgroundTint="#001F54"
         android:textColor="@android:color/white"
         android:padding="12dp"
+        android:elevation="4dp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Add Car Button -->
+    <Button
+        android:id="@+id/btnAddCar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add New Car"
+        android:textSize="18sp"
+        android:backgroundTint="#008000"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
         android:elevation="4dp" />
 
 </LinearLayout>

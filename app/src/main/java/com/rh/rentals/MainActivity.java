@@ -29,5 +29,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // ✅ Set up click listener for the "Add Car" button
+        findViewById(R.id.btnAddCar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to AddCarActivity where users can input and save new cars
+                Intent intent = new Intent(MainActivity.this, AddCarActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

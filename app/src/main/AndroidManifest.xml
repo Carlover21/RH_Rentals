@@ -27,7 +27,6 @@
         </activity>
 
         <!-- Car List Activity Declaration -->
-        <!-- Activity for displaying the list of cars -->
         <activity
             android:name=".CarListActivity"
             android:exported="true"
@@ -35,7 +34,6 @@
             android:theme="@style/Theme.RH_Rentals" />
 
         <!-- Booking Activity Declaration -->
-        <!-- Activity for handling car bookings -->
         <activity
             android:name=".BookingActivity"
             android:exported="true"
@@ -43,11 +41,17 @@
             android:theme="@style/Theme.RH_Rentals" />
 
         <!-- Car Detail Activity Declaration -->
-        <!-- Activity for displaying car details -->
         <activity
             android:name=".CarDetailActivity"
             android:exported="true"
             android:label="Car Details"
+            android:theme="@style/Theme.RH_Rentals" />
+
+        <!-- ✅ Fix: Add Car Activity Declaration -->
+        <activity
+            android:name=".AddCarActivity"
+            android:exported="true"
+            android:label="Add Car"
             android:theme="@style/Theme.RH_Rentals" />
 
     </application>
