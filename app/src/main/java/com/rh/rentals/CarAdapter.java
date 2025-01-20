@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2; // ✅ Ensure ViewPager2 is used
+import androidx.viewpager2.widget.ViewPager2; // ✅ Ensure ViewPager2 is imported
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,9 +58,10 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         // Handle Click to View Car Details
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CarDetailActivity.class);
+            intent.putExtra("carId", car.getId());
             intent.putExtra("carName", car.getName());
             intent.putExtra("carPrice", car.getPrice());
-            intent.putExtra("carImages", car.getImageUris()); // Send images as string
+            intent.putExtra("carImages", car.getImageUris());
             context.startActivity(intent);
         });
     }

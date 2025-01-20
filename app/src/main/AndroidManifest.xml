@@ -13,8 +13,7 @@
         android:theme="@style/Theme.RH_Rentals"
         tools:targetApi="31">
 
-        <!-- Main Activity Declaration -->
-        <!-- This is the launcher activity for the app -->
+        <!-- ✅ Main Activity (Launcher) -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -26,32 +25,39 @@
             </intent-filter>
         </activity>
 
-        <!-- Car List Activity Declaration -->
+        <!-- ✅ Car List Activity -->
         <activity
             android:name=".CarListActivity"
             android:exported="true"
             android:label="Car List"
             android:theme="@style/Theme.RH_Rentals" />
 
-        <!-- Booking Activity Declaration -->
+        <!-- ✅ Booking Activity -->
         <activity
             android:name=".BookingActivity"
             android:exported="true"
             android:label="Booking"
             android:theme="@style/Theme.RH_Rentals" />
 
-        <!-- Car Detail Activity Declaration -->
+        <!-- ✅ Car Detail Activity -->
         <activity
             android:name=".CarDetailActivity"
             android:exported="true"
             android:label="Car Details"
             android:theme="@style/Theme.RH_Rentals" />
 
-        <!-- ✅ Fix: Add Car Activity Declaration -->
+        <!-- ✅ Add Car Activity -->
         <activity
             android:name=".AddCarActivity"
             android:exported="true"
             android:label="Add Car"
+            android:theme="@style/Theme.RH_Rentals" />
+
+        <!-- ✅ Fix: Add Edit Car Activity -->
+        <activity
+            android:name=".EditCarActivity"
+            android:exported="true"
+            android:label="Edit Car"
             android:theme="@style/Theme.RH_Rentals" />
 
     </application>

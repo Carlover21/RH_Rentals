@@ -3,17 +3,19 @@ package com.rh.rentals;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2; // ✅ Ensure ViewPager2 is imported
+import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddCarActivity extends AppCompatActivity {
-    private ViewPager2 viewPagerCarImages; // ✅ Updated to ViewPager2
+    private ViewPager2 viewPagerCarImages;
     private EditText etCarName, etCarPrice;
     private Button btnSelectImages, btnSaveCar;
     private List<String> selectedImageUris = new ArrayList<>();
@@ -25,7 +27,7 @@ public class AddCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_car);
 
-        // Initialize UI elements
+        // ✅ Initialize UI elements
         viewPagerCarImages = findViewById(R.id.viewPagerCarImages);
         etCarName = findViewById(R.id.etCarName);
         etCarPrice = findViewById(R.id.etCarPrice);
@@ -33,14 +35,14 @@ public class AddCarActivity extends AppCompatActivity {
         btnSaveCar = findViewById(R.id.btnSaveCar);
         databaseHelper = new DatabaseHelper(this);
 
-        // Initialize adapter for ViewPager2
+        // ✅ Initialize adapter for ViewPager2
         imagePagerAdapter = new ImagePagerAdapter(this, selectedImageUris);
-        viewPagerCarImages.setAdapter(imagePagerAdapter); // ✅ No more type conversion error
+        viewPagerCarImages.setAdapter(imagePagerAdapter);
 
-        // Handle image selection
+        // ✅ Handle Image Selection
         btnSelectImages.setOnClickListener(v -> selectImages());
 
-        // Handle saving the car data
+        // ✅ Handle Save Car Button Click
         btnSaveCar.setOnClickListener(v -> saveCarToDatabase());
     }
 
@@ -52,15 +54,26 @@ public class AddCarActivity extends AppCompatActivity {
                         int count = result.getData().getClipData().getItemCount();
                         for (int i = 0; i < count; i++) {
                             Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
+
+                            // ✅ Persist permission for image URI
+                            getContentResolver().takePersistableUriPermission(
+                                    imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                             selectedImageUris.add(imageUri.toString());
                         }
                     } else if (result.getData().getData() != null) {
                         Uri imageUri = result.getData().getData();
+
+                        // ✅ Persist permission for single image
+                        getContentResolver().takePersistableUriPermission(
+                                imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                         selectedImageUris.add(imageUri.toString());
                     }
                     imagePagerAdapter.notifyDataSetChanged();
                 }
             });
+
 
     private void selectImages() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -74,12 +87,39 @@ public class AddCarActivity extends AppCompatActivity {
         String carName = etCarName.getText().toString().trim();
         String carPrice = etCarPrice.getText().toString().trim();
 
-        if (carName.isEmpty() || carPrice.isEmpty() || selectedImageUris.isEmpty()) {
+        // ✅ Validate user input
+        if (carName.isEmpty()) {
+            etCarName.setError("Car name is required!");
+            return;
+        }
+        if (carPrice.isEmpty()) {
+            etCarPrice.setError("Price is required!");
             return;
         }
 
-        String imageUrisString = String.join(",", selectedImageUris); // Store URIs as comma-separated string
-        databaseHelper.addCar(carName, Double.parseDouble(carPrice), imageUrisString);
-        finish(); // Close activity after saving
+        double price;
+        try {
+            price = Double.parseDouble(carPrice);
+        } catch (NumberFormatException e) {
+            etCarPrice.setError("Enter a valid price!");
+            return;
+        }
+
+        if (selectedImageUris.isEmpty()) {
+            Toast.makeText(this, "Please select at least one image.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ✅ Convert list of image URIs to a single string
+        String imageUrisString = String.join(",", selectedImageUris);
+
+        // ✅ Save to database
+        boolean success = databaseHelper.addCar(carName, price, imageUrisString);
+        if (success) {
+            Toast.makeText(this, "Car added successfully!", Toast.LENGTH_SHORT).show();
+            finish(); // Close activity after saving
+        } else {
+            Toast.makeText(this, "Error adding car!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
