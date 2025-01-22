@@ -40,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ✅ Add a New Car
     public boolean addCar(String name, double price, String imageUris) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -53,7 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // ✅ Get All Cars
     public List<Car> getAllCars() {
         List<Car> carList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -61,12 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                carList.add(new Car(
-                        cursor.getInt(0),    // ID
-                        cursor.getString(1), // Name
-                        cursor.getDouble(2), // Price
-                        cursor.getString(3)  // Image URIs
-                ));
+                carList.add(new Car(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3)));
             } while (cursor.moveToNext());
         }
 
@@ -75,42 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return carList;
     }
 
-    // ✅ Get a Specific Car by ID
-    public Car getCarById(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CARS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_PRICE, COLUMN_IMAGE_URI},
-                COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            Car car = new Car(
-                    cursor.getInt(0),    // ID
-                    cursor.getString(1), // Name
-                    cursor.getDouble(2), // Price
-                    cursor.getString(3)  // Image URIs
-            );
-            cursor.close();
-            db.close();
-            return car;
-        } else {
-            db.close();
-            return null; // Car not found
-        }
-    }
-
-    // ✅ Update a Car (Edit Feature)
-    public boolean updateCar(int id, String name, double price, String imageUris) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_PRICE, price);
-        values.put(COLUMN_IMAGE_URI, imageUris);
-
-        int result = db.update(TABLE_CARS, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
-        db.close();
-        return result > 0;
-    }
-
-    // ✅ Delete a Car
     public void deleteCar(int carId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CARS, COLUMN_ID + "=?", new String[]{String.valueOf(carId)});

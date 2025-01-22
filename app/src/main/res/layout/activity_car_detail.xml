@@ -3,17 +3,17 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ✅ Fix ViewPager2 -->
-        <androidx.viewpager2.widget.ViewPager2
+        <!-- Image slider -->
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="16dp" />
 
         <!-- Car Name -->
@@ -24,7 +24,8 @@
             android:text="Car Name"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black" />
 
         <!-- Car Price -->
         <TextView
@@ -33,7 +34,8 @@
             android:layout_height="wrap_content"
             android:text="Price per day: $100"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black" />
 
         <!-- Car Description -->
         <TextView
@@ -42,31 +44,19 @@
             android:layout_height="wrap_content"
             android:text="Car description goes here."
             android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="@android:color/darker_gray" />
 
         <!-- Book Now Button -->
         <Button
             android:id="@+id/btnBookNow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BOOK NOW"
+            android:text="Book Now"
             android:backgroundTint="#001F54"
-            android:textColor="@android:color/white"
-            android:padding="12dp"
-            android:elevation="4dp"
-            android:layout_marginBottom="10dp" />
-
-        <!-- Edit Car Button -->
-        <Button
-            android:id="@+id/btnEditCar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="EDIT CAR"
-            android:backgroundTint="#FFA500"
             android:textColor="@android:color/white"
             android:padding="12dp"
             android:elevation="4dp" />
     </LinearLayout>
-
 </ScrollView>
 
