@@ -5,51 +5,54 @@
     android:padding="20dp"
     android:gravity="center">
 
-    <!-- Image Slideshow Preview (ViewPager2) -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerCarImages"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginBottom="10dp" />
 
-    <!-- Button to Select Multiple Images -->
     <Button
         android:id="@+id/btnSelectImages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_images"
+        android:text="Select Images"
         android:backgroundTint="@color/orange"
         android:textColor="@android:color/white"
         android:padding="16dp"
-        android:layout_marginBottom="10dp"
-        android:minHeight="48dp"/>
+        android:layout_marginBottom="10dp" />
 
-    <!-- Input field for Car Name -->
     <EditText
         android:id="@+id/etCarName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_car_name"
+        android:hint="Enter Car Name"
         android:inputType="textPersonName"
         android:padding="16dp"
         android:layout_marginTop="10dp" />
 
-    <!-- Input field for Car Price -->
     <EditText
         android:id="@+id/etCarPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_car_price"
+        android:hint="Enter Car Price"
         android:inputType="numberDecimal"
         android:padding="16dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
-    <!-- Save Car Button -->
+    <EditText
+        android:id="@+id/editTextCarDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Car Description"
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:layout_marginTop="10dp" />
+
     <Button
         android:id="@+id/btnSaveCar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save_car"
+        android:text="Save Car"
         android:backgroundTint="@color/green"
         android:textColor="@android:color/white"
         android:padding="16dp"

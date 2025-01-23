@@ -1,50 +1,59 @@
 package com.rh.rentals;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class CarListActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewCars;
     private CarAdapter carAdapter;
     private DatabaseHelper databaseHelper;
-    private List<Car> carList;
+    private TextView txtNoCars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_list);
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewCars);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize Database Helper
+        recyclerViewCars = findViewById(R.id.recyclerViewCars);
+        txtNoCars = findViewById(R.id.txtNoCars);
         databaseHelper = new DatabaseHelper(this);
 
-        // Load cars from database
-        loadCars();
-    }
+        recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
-    private void loadCars() {
-        carList = databaseHelper.getAllCars(); // Fetch all saved cars
+        // Fix: Ensure correct constructor is used
+        List<Car> carList = databaseHelper.getAllCars();
+        carAdapter = new CarAdapter(this, carList, databaseHelper);
+        recyclerViewCars.setAdapter(carAdapter);
 
-        if (carList.isEmpty()) {
-            Toast.makeText(this, "No cars available", Toast.LENGTH_SHORT).show();
-        } else {
-            carAdapter = new CarAdapter(this, carList, databaseHelper);
-            recyclerView.setAdapter(carAdapter);
-        }
+        checkIfCarsExist();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadCars(); // Reload car list when returning to this screen
+        loadCarList();
+    }
+
+    private void loadCarList() {
+        List<Car> carList = databaseHelper.getAllCars();
+        carAdapter.updateList(carList); // Now this method exists
+        checkIfCarsExist();
+    }
+
+    private void checkIfCarsExist() {
+        if (carAdapter.getItemCount() == 0) {
+            txtNoCars.setVisibility(View.VISIBLE);
+            recyclerViewCars.setVisibility(View.GONE);
+        } else {
+            txtNoCars.setVisibility(View.GONE);
+            recyclerViewCars.setVisibility(View.VISIBLE);
+        }
     }
 }

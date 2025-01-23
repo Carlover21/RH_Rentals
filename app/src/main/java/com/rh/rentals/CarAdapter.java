@@ -9,15 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2; // ✅ Ensure ViewPager2 is used
+import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
-    private Context context;
-    private List<Car> carList;
-    private DatabaseHelper databaseHelper;
+    private final Context context;
+    private final List<Car> carList;
+    private final DatabaseHelper databaseHelper;
 
     public CarAdapter(Context context, List<Car> carList, DatabaseHelper databaseHelper) {
         this.context = context;
@@ -37,7 +37,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         Car car = carList.get(position);
 
         holder.textViewCarName.setText(car.getName());
-        holder.textViewCarPrice.setText("Price: $" + car.getPrice());
+        holder.textViewCarPrice.setText(context.getString(R.string.car_price, car.getPrice()));
 
         // Ensure car.getImageUris() is not null before calling split()
         String imageUris = car.getImageUris();
@@ -49,7 +49,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             ImagePagerAdapter adapter = new ImagePagerAdapter(context, imageList);
             holder.viewPagerCarImages.setAdapter(adapter);
         } else {
-            // Handle the case when there are no images (e.g., set default behavior or show placeholder)
             holder.viewPagerCarImages.setAdapter(null); // Clear the adapter if no images
         }
 
@@ -58,6 +57,16 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             databaseHelper.deleteCar(car.getId()); // Remove car from DB
             carList.remove(position);
             notifyItemRemoved(position);
+        });
+
+        // Handle Edit Car Button
+        holder.btnEditCar.setOnClickListener(v -> {
+            Intent intent = new Intent(context, EditCarActivity.class);
+            intent.putExtra("carId", car.getId());
+            intent.putExtra("carName", car.getName());
+            intent.putExtra("carPrice", car.getPrice());
+            intent.putExtra("carImages", car.getImageUris()); // Send images as string
+            context.startActivity(intent);
         });
 
         // Handle Click to View Car Details
@@ -75,17 +84,25 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         return carList.size();
     }
 
+    // ✅ Added updateList() method to refresh RecyclerView dynamically
+    public void updateList(List<Car> updatedList) {
+        this.carList.clear();
+        this.carList.addAll(updatedList);
+        notifyItemRangeChanged(0, updatedList.size());
+    }
+
     public static class CarViewHolder extends RecyclerView.ViewHolder {
         TextView textViewCarName, textViewCarPrice;
-        ViewPager2 viewPagerCarImages; // ✅ Updated to ViewPager2
-        Button btnDeleteCar;
+        ViewPager2 viewPagerCarImages;
+        Button btnDeleteCar, btnEditCar;
 
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewCarName = itemView.findViewById(R.id.textViewCarName);
             textViewCarPrice = itemView.findViewById(R.id.textViewCarPrice);
-            viewPagerCarImages = itemView.findViewById(R.id.viewPagerCarImages); // ✅ Updated reference
+            viewPagerCarImages = itemView.findViewById(R.id.viewPagerCarImages);
             btnDeleteCar = itemView.findViewById(R.id.btnDeleteCar);
+            btnEditCar = itemView.findViewById(R.id.btnEditCar);
         }
     }
 }

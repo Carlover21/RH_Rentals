@@ -4,12 +4,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCars"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
     <!-- Title for the Car List Screen -->
     <TextView
         android:id="@+id/txtCarListTitle"
@@ -18,12 +12,23 @@
         android:text="Available Cars"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp" />
 
-    <!-- ListView for displaying cars -->
-    <ListView
-        android:id="@+id/listViewCars"
+    <!-- Show message if no cars are available -->
+    <TextView
+        android:id="@+id/txtNoCars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No cars available"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- RecyclerView for displaying car list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCars"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>
-

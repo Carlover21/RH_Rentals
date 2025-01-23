@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">RH_Rentals</string>
-        <string name="select_images">Select Images</string>
-        <string name="enter_car_name">Enter Car Name</string>
-        <string name="enter_car_price">Enter Car Price</string>
-        <string name="save_car">Save Car</string>
+    <string name="select_images">Select Images</string>
+    <string name="enter_car_name">Enter Car Name</string>
+    <string name="enter_car_price">Enter Car Price</string>
+    <string name="save_car">Save Car</string>
     <string name="enter_car_description">Enter Car Description</string>
     <string name="save_changes">Save Changes</string>#<string name="app_title">RH Rentals</string>
     <string name="app_tagline">Luxury in Every Mile</string>
@@ -16,4 +16,13 @@
     <string name="enter_contact">Enter your contact number</string>
     <string name="enter_car_model">Enter car model</string>
     <string name="submit_booking">Submit Booking</string>
+    <string name="car_added_successfully">Car added successfully!</string>
+    <string name="error_adding_car">Error adding car</string>
+    <string name="fill_all_fields">Please fill in all fields</string>
+    <string name="car_image">Car Image</string>
+    <string name="available_cars">Available Cars</string>
+    <string name="no_cars_available">No cars available</string>
+    <string name="car_price">Price: $%s</string>
+    <string name="delete_car">Delete Car</string>
+    <string name="edit_car">Edit Car</string>
 </resources>

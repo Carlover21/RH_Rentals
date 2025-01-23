@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
-    <!-- Image Slider (Now using ViewPager2) -->
+    <!-- ViewPager for Car Images -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerCarImages"
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
         android:id="@+id/textViewCarName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Car Name"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -27,8 +29,8 @@
         android:id="@+id/textViewCarPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Price: $0.00"
         android:textSize="16sp"
-        android:paddingTop="4dp"
         android:textColor="@android:color/darker_gray"
         android:layout_marginBottom="8dp"/>
 
@@ -37,8 +39,8 @@
         android:id="@+id/btnDeleteCar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:backgroundTint="#FF0000"
+        android:text="@string/delete_car"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:textColor="@android:color/white"
         android:padding="8dp"
         android:layout_marginBottom="8dp"/>
@@ -48,14 +50,18 @@
         android:id="@+id/btnEditCar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Car"
+        android:text="@string/edit_car"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- ImageView to display car image -->
+    <!-- ImageView as a placeholder for cars (If no images in ViewPager) -->
     <ImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/car_image"
         android:layout_marginBottom="8dp"/>
 </LinearLayout>
