@@ -1,50 +1,36 @@
 package com.rh.rentals;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CarListActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView;  // ✅ Declare RecyclerView
     private CarAdapter carAdapter;
     private DatabaseHelper databaseHelper;
-    private List<Car> carList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_list);
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewCars);
+        recyclerView = findViewById(R.id.recyclerView);  // ✅ Initialize RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize Database Helper
         databaseHelper = new DatabaseHelper(this);
+        List<Car> carList = databaseHelper.getAllCars();
 
-        // Load cars from database
-        loadCars();
-    }
-
-    private void loadCars() {
-        carList = databaseHelper.getAllCars(); // Fetch all saved cars
-
+        // ✅ Debugging: Check if cars exist in the database
         if (carList.isEmpty()) {
-            Toast.makeText(this, "No cars available", Toast.LENGTH_SHORT).show();
+            Log.e("CarListActivity", "No cars found in database");
         } else {
-            carAdapter = new CarAdapter(this, carList, databaseHelper);
-            recyclerView.setAdapter(carAdapter);
+            Log.d("CarListActivity", "Loaded " + carList.size() + " cars from database");
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadCars(); // Reload car list when returning to this screen
+        carAdapter = new CarAdapter(this, carList, databaseHelper);
+        recyclerView.setAdapter(carAdapter);  // ✅ Set Adapter
     }
 }
