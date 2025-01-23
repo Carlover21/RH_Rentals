@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide; // ✅ Ensure Glide is imported
 import java.util.List;
 
-public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder> {
+public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.ViewHolder> {
     private Context context;
     private List<String> imageUris;
 
@@ -22,15 +22,14 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
 
     @NonNull
     @Override
-    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.image_slider_item, parent, false);
-        return new ImageViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Uri imageUri = Uri.parse(imageUris.get(position));
-        Glide.with(context).load(imageUri).into(holder.imageView);  // ✅ Load image using Glide
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Glide.with(context).load(Uri.parse(imageUris.get(position))).into(holder.imageView);
     }
 
     @Override
@@ -38,13 +37,12 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
         return imageUris.size();
     }
 
-    // ✅ Fix: Define ImageViewHolder properly
-    public static class ImageViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ImageViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView); // ✅ Ensure correct ID
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CarRentalDB";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_CARS = "cars";
 
     // Column Names
@@ -72,11 +72,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CARS, COLUMN_ID + "=?", new String[]{String.valueOf(carId)});
         db.close();
-    }
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion > newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS cars");
-            onCreate(db);
-        }
     }
 }

@@ -10,11 +10,11 @@
         android:padding="16dp">
 
         <!-- Image slider -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPagerCarImages"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="16dp" />
 
         <!-- Car Name -->
         <TextView

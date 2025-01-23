@@ -1,49 +1,47 @@
 package com.rh.rentals;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CarDetailActivity extends AppCompatActivity {
-    private ViewPager2 viewPagerCarImages;
-    private ImagePagerAdapter imagePagerAdapter;
-    private TextView textViewCarName, textViewCarPrice;
+    private ViewPager2 viewPager;
+    private TextView txtCarName, txtCarPrice, txtCarDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
 
-        // ✅ Initialize Views
-        viewPagerCarImages = findViewById(R.id.viewPagerCarImages);
-        textViewCarName = findViewById(R.id.textViewCarName);
-        textViewCarPrice = findViewById(R.id.textViewCarPrice);
+        // ✅ Corrected: Use ViewPager2 instead of ViewPager
+        viewPager = findViewById(R.id.viewPager);
+        txtCarName = findViewById(R.id.txtCarName);
+        txtCarPrice = findViewById(R.id.txtCarPrice);
+        txtCarDescription = findViewById(R.id.txtCarDescription);
 
-        if (viewPagerCarImages == null) {
-            throw new NullPointerException("ViewPager2 is NULL! Check XML ID in activity_car_detail.xml");
-        }
-
-        // ✅ Get Data from Intent
+        // Get data from Intent
         String carName = getIntent().getStringExtra("carName");
-        double carPrice = getIntent().getDoubleExtra("carPrice", 0.0);
-        String imageUrisString = getIntent().getStringExtra("carImages");
+        String carPrice = getIntent().getStringExtra("carPrice");
+        String carDescription = getIntent().getStringExtra("carDescription");
+        String imageUrisString = getIntent().getStringExtra("carImages"); // Expecting comma-separated image URIs
 
-        // ✅ Handle Null Values Gracefully
-        List<String> imageUris = new ArrayList<>();
-        if (imageUrisString != null && !imageUrisString.isEmpty()) {
-            imageUris = Arrays.asList(imageUrisString.split(","));
+        // Set text values
+        txtCarName.setText(carName);
+        txtCarPrice.setText("Price: $" + carPrice);
+        txtCarDescription.setText(carDescription);
+
+        // Convert String image URIs to ArrayList<String>
+        List<String> imageList = new ArrayList<>();
+        if (imageUrisString != null) {
+            imageList = Arrays.asList(imageUrisString.split(","));
         }
 
-        // ✅ Display Car Name & Price
-        textViewCarName.setText(carName != null ? carName : "Unknown Car");
-        textViewCarPrice.setText("Price: $" + carPrice);
-
-        // ✅ Set up ViewPager2 with ImagePagerAdapter
-        imagePagerAdapter = new ImagePagerAdapter(this, imageUris);
-        viewPagerCarImages.setAdapter(imagePagerAdapter);
+        // ✅ Corrected: Set up ViewPager2 with RecyclerView.Adapter
+        ImagePagerAdapter adapter = new ImagePagerAdapter(this, new ArrayList<>(imageList));
+        viewPager.setAdapter(adapter);
     }
 }
