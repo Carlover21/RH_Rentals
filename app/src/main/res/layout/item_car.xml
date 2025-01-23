@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Image Slider -->
-    <androidx.viewpager.widget.ViewPager
+    <!-- Image Slider (Now using ViewPager2) -->
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerCarImages"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp"/>
 
     <!-- Car Price -->
     <TextView
@@ -27,7 +29,8 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingTop="4dp"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="8dp"/>
 
     <!-- Delete Car Button -->
     <Button
@@ -38,5 +41,21 @@
         android:backgroundTint="#FF0000"
         android:textColor="@android:color/white"
         android:padding="8dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Edit Car Button -->
+    <Button
+        android:id="@+id/btnEditCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Car"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- ImageView to display car image -->
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="8dp"/>
 </LinearLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/txtBookingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Car Booking"
+        android:text="@string/car_booking_title"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="20dp" />
@@ -20,7 +20,10 @@
         android:id="@+id/edtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your name"
+        android:hint="@string/enter_name"
+        android:inputType="textPersonName"
+        android:autofillHints="name"
+        android:minHeight="48dp"
         android:layout_marginBottom="10dp" />
 
     <!-- Contact Input -->
@@ -28,7 +31,10 @@
         android:id="@+id/edtContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your contact number"
+        android:hint="@string/enter_contact"
+        android:inputType="phone"
+        android:autofillHints="phone"
+        android:minHeight="48dp"
         android:layout_marginBottom="10dp" />
 
     <!-- Car Input -->
@@ -36,17 +42,21 @@
         android:id="@+id/edtCar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter car model"
+        android:hint="@string/enter_car_model"
+        android:inputType="text"
+        android:autofillHints="makeModel"
+        android:minHeight="48dp"
         android:layout_marginBottom="20dp" />
 
     <!-- Submit Button -->
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Booking"
-        android:backgroundTint="#001F54"
+        android:text="@string/submit_booking"
+        android:backgroundTint="@color/dark_blue"
         android:textColor="@android:color/white"
         android:padding="12dp"
-        android:elevation="4dp" />
+        android:elevation="4dp"
+        android:layout_gravity="center"/>
 </LinearLayout>

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -25,11 +27,20 @@ public class EditCarActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> imagePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Uri selectedImageUri = result.getData().getData();
-                    if (selectedImageUri != null) {
-                        imageUris.add(selectedImageUri.toString());
-                        imagePagerAdapter.notifyDataSetChanged();
+                    if (result.getData().getClipData() != null) {
+                        int count = result.getData().getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
+                            imageUris.add(imageUri.toString());
+                        }
+                    } else if (result.getData().getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        imageUris.add(imageUri.toString());
                     }
+                    updateImagePagerAdapter();
+                    Log.d("ImagePicker", "Selected Images: " + imageUris);
+                } else {
+                    Log.d("ImagePicker", "No Image Selected");
                 }
             });
 
@@ -62,25 +73,45 @@ public class EditCarActivity extends AppCompatActivity {
         imagePagerAdapter = new ImagePagerAdapter(this, imageUris);
         viewPagerCarImages.setAdapter(imagePagerAdapter);
 
-        // Image Picker
         btnSelectImages.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             imagePickerLauncher.launch(intent);
         });
 
-        // Save Changes
         btnSaveChanges.setOnClickListener(v -> {
             String name = editTextCarName.getText().toString();
-            double price = Double.parseDouble(editTextCarPrice.getText().toString());
+            String priceStr = editTextCarPrice.getText().toString();
             String description = editTextCarDescription.getText().toString();
+
+            if (name.isEmpty() || priceStr.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double price = Double.parseDouble(priceStr);
             String newImageUris = String.join(",", imageUris);
 
             if (carId != -1) {
-                databaseHelper.updateCar(carId, name, price, description, newImageUris);
+                boolean isUpdated = databaseHelper.updateCar(carId, name, price, description, newImageUris);
+                if (isUpdated) {
+                    Toast.makeText(this, "Car updated successfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Update failed!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             finish();
         });
+    }
+
+    private void updateImagePagerAdapter() {
+        if (imagePagerAdapter == null) {
+            imagePagerAdapter = new ImagePagerAdapter(this, imageUris);
+            viewPagerCarImages.setAdapter(imagePagerAdapter);
+        } else {
+            imagePagerAdapter.notifyDataSetChanged();
+        }
     }
 }

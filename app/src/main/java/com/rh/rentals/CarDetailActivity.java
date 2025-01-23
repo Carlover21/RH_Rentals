@@ -3,45 +3,30 @@ package com.rh.rentals;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
-import android.widget.TextView;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CarDetailActivity extends AppCompatActivity {
-    private ViewPager2 viewPager;
-    private TextView txtCarName, txtCarPrice, txtCarDescription;
+
+    private ViewPager2 viewPagerCarImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
 
-        // ✅ Corrected: Use ViewPager2 instead of ViewPager
-        viewPager = findViewById(R.id.viewPager);
-        txtCarName = findViewById(R.id.txtCarName);
-        txtCarPrice = findViewById(R.id.txtCarPrice);
-        txtCarDescription = findViewById(R.id.txtCarDescription);
+        // Initialize ViewPager2
+        viewPagerCarImages = findViewById(R.id.viewPagerCarImages);
 
-        // Get data from Intent
-        String carName = getIntent().getStringExtra("carName");
-        String carPrice = getIntent().getStringExtra("carPrice");
-        String carDescription = getIntent().getStringExtra("carDescription");
-        String imageUrisString = getIntent().getStringExtra("carImages"); // Expecting comma-separated image URIs
+        // Get the car images from the intent (assuming images are passed as a comma-separated string)
+        String carImages = getIntent().getStringExtra("carImages");
+        if (carImages != null) {
+            String[] imageUris = carImages.split(",");
+            List<String> imageList = Arrays.asList(imageUris); // Ensure Arrays is imported
 
-        // Set text values
-        txtCarName.setText(carName);
-        txtCarPrice.setText("Price: $" + carPrice);
-        txtCarDescription.setText(carDescription);
-
-        // Convert String image URIs to ArrayList<String>
-        List<String> imageList = new ArrayList<>();
-        if (imageUrisString != null) {
-            imageList = Arrays.asList(imageUrisString.split(","));
+            // Set up the ImagePagerAdapter for ViewPager2
+            ImagePagerAdapter adapter = new ImagePagerAdapter(this, imageList);
+            viewPagerCarImages.setAdapter(adapter);
         }
-
-        // ✅ Corrected: Set up ViewPager2 with RecyclerView.Adapter
-        ImagePagerAdapter adapter = new ImagePagerAdapter(this, new ArrayList<>(imageList));
-        viewPager.setAdapter(adapter);
     }
 }

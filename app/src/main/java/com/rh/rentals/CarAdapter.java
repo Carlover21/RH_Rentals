@@ -2,7 +2,6 @@ package com.rh.rentals;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +39,19 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.textViewCarName.setText(car.getName());
         holder.textViewCarPrice.setText("Price: $" + car.getPrice());
 
-        // Convert stored image URI string to a list
-        String[] imageUris = car.getImageUris().split(",");
-        List<String> imageList = new ArrayList<>(Arrays.asList(imageUris));
+        // Ensure car.getImageUris() is not null before calling split()
+        String imageUris = car.getImageUris();
+        if (imageUris != null && !imageUris.isEmpty()) {
+            String[] imageUrisArray = imageUris.split(",");
+            List<String> imageList = new ArrayList<>(Arrays.asList(imageUrisArray));
 
-        // ✅ Set up ViewPager2 with ImagePagerAdapter
-        ImagePagerAdapter adapter = new ImagePagerAdapter(context, imageList);
-        holder.viewPagerCarImages.setAdapter(adapter); // ✅ Fix type error (now uses ViewPager2)
+            // Set up ViewPager2 with ImagePagerAdapter
+            ImagePagerAdapter adapter = new ImagePagerAdapter(context, imageList);
+            holder.viewPagerCarImages.setAdapter(adapter);
+        } else {
+            // Handle the case when there are no images (e.g., set default behavior or show placeholder)
+            holder.viewPagerCarImages.setAdapter(null); // Clear the adapter if no images
+        }
 
         // Handle Delete Car Button
         holder.btnDeleteCar.setOnClickListener(v -> {

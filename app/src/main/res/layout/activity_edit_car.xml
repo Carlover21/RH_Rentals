@@ -1,33 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp"
+    android:gravity="center">
 
+    <!-- ViewPager for Image Display -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerCarImages"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Button to Select Multiple Images -->
+    <Button
+        android:id="@+id/btnSelectImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_images"
+        android:backgroundTint="@color/orange"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:layout_marginBottom="10dp"
+        android:minHeight="48dp"/>
+
+    <!-- Input field for Car Name -->
     <EditText
         android:id="@+id/editTextCarName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Car Name" />
+        android:hint="@string/enter_car_name"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:layout_marginTop="10dp" />
 
+    <!-- Input field for Car Price -->
     <EditText
         android:id="@+id/editTextCarPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Car Price"
-        android:inputType="numberDecimal" />
+        android:hint="@string/enter_car_price"
+        android:inputType="numberDecimal"
+        android:padding="16dp"
+        android:layout_marginTop="10dp"/>
 
+    <!-- Input field for Car Description -->
     <EditText
         android:id="@+id/editTextCarDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Car Description"
-        android:inputType="textMultiLine" />
+        android:hint="@string/enter_car_description"
+        android:inputType="textMultiLine"
+        android:padding="16dp"
+        android:layout_marginTop="10dp"/>
 
+    <!-- Save Changes Button -->
     <Button
         android:id="@+id/btnSaveChanges"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Changes" />
+        android:text="@string/save_changes"
+        android:backgroundTint="@color/green"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        android:minHeight="48dp"/>
 </LinearLayout>

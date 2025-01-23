@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">RH_Rentals</string>
+        <string name="select_images">Select Images</string>
+        <string name="enter_car_name">Enter Car Name</string>
+        <string name="enter_car_price">Enter Car Price</string>
+        <string name="save_car">Save Car</string>
+    <string name="enter_car_description">Enter Car Description</string>
+    <string name="save_changes">Save Changes</string>#<string name="app_title">RH Rentals</string>
+    <string name="app_tagline">Luxury in Every Mile</string>
+    <string name="view_cars">View Cars</string>
+    <string name="book_now">Book Now</string>
+    <string name="add_car">Add New Car</string>
+    <string name="app_logo_desc">RH Rentals Logo</string>
+    <string name="car_booking_title">Car Booking</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="enter_contact">Enter your contact number</string>
+    <string name="enter_car_model">Enter car model</string>
+    <string name="submit_booking">Submit Booking</string>
 </resources>
