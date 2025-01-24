@@ -19,8 +19,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_PRICE = "price";
-    private static final String COLUMN_DESCRIPTION = "description"; // Car description
-    private static final String COLUMN_IMAGE_URI = "image_uris"; // Multiple image URIs stored as CSV
+    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_IMAGE_URI = "image_uris";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,17 +39,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 5) {
-            try {
+        try {
+            if (oldVersion < 5) {
                 db.execSQL("ALTER TABLE " + TABLE_CARS + " ADD COLUMN " + COLUMN_DESCRIPTION + " TEXT DEFAULT ''");
                 db.execSQL("ALTER TABLE " + TABLE_CARS + " ADD COLUMN " + COLUMN_IMAGE_URI + " TEXT DEFAULT ''");
-            } catch (SQLException e) {
-                Log.e("Database Upgrade", "Error upgrading database", e);
             }
+        } catch (SQLException e) {
+            Log.e("Database Upgrade", "Error upgrading database", e);
         }
     }
 
-    // Method to add a car to the database
     public boolean addCar(String name, double price, String description, String imageUris) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -60,12 +59,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_CARS, null, values);
         db.close();
-
-        Log.d("Database", "Car Added: " + name + " | Images: " + imageUris);
-        return result != -1; // Returns true if insertion is successful
+        return result != -1;
     }
 
-    // Method to update a car in the database
     public boolean updateCar(int id, String name, double price, String description, String imageUris) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -76,42 +72,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int rowsUpdated = db.update(TABLE_CARS, values, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         db.close();
-
-        Log.d("Database", "Car Updated: ID=" + id + " | Images: " + imageUris);
-        return rowsUpdated > 0; // Returns true if update is successful
+        return rowsUpdated > 0;
     }
 
-    // Method to get all cars from the database
     public List<Car> getAllCars() {
         List<Car> carList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CARS, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
-                double price = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PRICE));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
-                String imageUris = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_URI));
-
-                carList.add(new Car(id, name, price, description, imageUris));
+                carList.add(new Car(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getDouble(2),
+                        cursor.getString(3),
+                        cursor.getString(4)
+                ));
             } while (cursor.moveToNext());
-            cursor.close();
         }
 
+        cursor.close();
         db.close();
-        Log.d("Database", "Cars Retrieved: " + carList.size());
         return carList;
     }
 
-    // Method to delete a car from the database
     public boolean deleteCar(int carId) {
         SQLiteDatabase db = this.getWritableDatabase();
         int deletedRows = db.delete(TABLE_CARS, COLUMN_ID + "=?", new String[]{String.valueOf(carId)});
         db.close();
-
-        Log.d("Database", "Car Deleted: ID=" + carId);
-        return deletedRows > 0; // Returns true if a row was deleted
+        return deletedRows > 0;
     }
 }

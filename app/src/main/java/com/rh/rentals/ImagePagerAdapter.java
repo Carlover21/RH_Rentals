@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.ImageViewHolder> {
-    private Context context;
-    private List<String> imageUris;
+    private final Context context;
+    private final List<String> imageUris;
 
     public ImagePagerAdapter(Context context, List<String> imageUris) {
         this.context = context;
@@ -25,16 +25,17 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the correct layout 'image_slider_item.xml'
         View view = LayoutInflater.from(context).inflate(R.layout.image_slider_item, parent, false);
         return new ImageViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        // Use Glide to load the image from the URI into the ImageView
+        String imageUrl = imageUris.get(position);
+
+        // Load the image directly using Glide (only from phone storage)
         Glide.with(context)
-                .load(imageUris.get(position))
+                .load(imageUrl)
                 .into(holder.imageView);
     }
 
@@ -43,14 +44,12 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
         return imageUris.size();
     }
 
-    // ViewHolder class to reference the image view
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Reference the ImageView using the correct ID
-            imageView = itemView.findViewById(R.id.imageViewCar); // ID defined in image_slider_item.xml
+            imageView = itemView.findViewById(R.id.imageViewCar);
         }
     }
 }

@@ -27,7 +27,6 @@ public class CarListActivity extends AppCompatActivity {
 
         recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
-        // Fix: Ensure correct constructor is used
         List<Car> carList = databaseHelper.getAllCars();
         carAdapter = new CarAdapter(this, carList, databaseHelper);
         recyclerViewCars.setAdapter(carAdapter);
@@ -43,7 +42,7 @@ public class CarListActivity extends AppCompatActivity {
 
     private void loadCarList() {
         List<Car> carList = databaseHelper.getAllCars();
-        carAdapter.updateList(carList); // Now this method exists
+        carAdapter.updateList(carList);
         checkIfCarsExist();
     }
 

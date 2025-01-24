@@ -25,4 +25,7 @@
     <string name="car_price">Price: $%s</string>
     <string name="delete_car">Delete Car</string>
     <string name="edit_car">Edit Car</string>
+    <string name="car_list">Car List</string>
+    <string name="booking">Booking</string>
+    <string name="car_details">Car Details</string>
 </resources>
